@@ -1,0 +1,205 @@
+规范与流程
+24 Aug 2022
+Tags:git
+
+郑赛，gavin
+hortor
+gavinzhs@gmail.com
+
+* 规范与流程
+- GIT的规范与使用流程
+- 项目结构
+- 代码规范
+
+* GIT的规范与使用流程
+原因以及内容
+
+- 统一环境
+- 统一行为
+
+* 统一环境
+
+- 设置用户名
+
+	git config --global user.name xxx
+
+- 设置工作邮箱
+
+	git config--global user.email xxx@hortorgames.com
+
+* 统一环境
+
+- 保持线性历史
+
+	git config --global pull.rebase true
+.image img/git-rebase.png
+.image img/git-merge.png
+
+
+* 统一环境
+
+- git log 与 更好的git log
+
+	git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(boldblue)<%an>%Creset'
+	--abbrev-commit"
+
+* 统一环境
+- git log 示例
+.image img/git-log-demo.png
+
+* 统一环境
+- git lg 示例
+.image img/git-merge.png
+
+* 统一行为
+- 每一次 commit 明确完成一件事(不以代码多少为判断依据) 
+- 频繁 commit , 经常 pull / push
+- 统一格式化方式
+- 禁止在一次 commit 中混杂 重构 、新功能、改bug 等多个目标
+
+* 统一行为
+git commit 编写指南
+
+- 一定要写 why 
+- 若实现方式不够直观，需要解释，就写上how
+- 按照Angular提交规范编写commit message
+
+.link https://docs.google.com/document/d/1QrDFcIiPjSLDn3EL15IJygNPiHORgU1_OOAqWjiDU5Y/edit Angular提交规范
+.link https://blog.csdn.net/life_hello/article/details/122070242 白话翻译
+
+* 统一行为
+commit comments 示例: 
+
+- bad
+	修改sort.go
+- good
+	改进排序算法效率
+
+* 统一行为
+commit comments 示例: 
+
+- bad
+	把循环变量loopIndex重命名成 i
+- good
+	重构
+
+* 统一行为
+commit comments 示例: 
+
+- bad
+	增加XX功能，修正XXbug， 改进XX结构 
+- good
+	增加XX功能 
+	修正XXbug 
+	改进XX结构
+
+* 统一行为
+禁止在文件头部作无谓注释:
+
+- 创建时间 
+- 作者 
+- 版权信息
+
+* 统一行为
+- 必要时可在文件头部增加当前类的整体说明 
+- 无用的代码立即删除，禁止通过注释保留下来 
+
+* GIT使用流程
+
+* 现有项目分支
+- dev
+- test
+- master
+所有以上分支都应该可上线
+
+* 开发流程
+- 功能较小
+- 功能大
+- hotfix
+
+* 功能较小
+.image img/gitflow-stash.png
+
+* 功能大
+- 本地解决冲突
+- 从Feature到dev可以合并提交一次
+- 合并分支优先在本地
+.image img/gitflow-f.png
+
+* hotfix
+.image img/gitflow-hotfix.png
+
+* 项目结构
+- 当前项目结构
+- 以前项目结构
+- common
+
+* 当前项目结构
+.image img/struct-now.png _ 300
+
+* 以前项目结构
+.image img/struct-old.png _ 200
+
+* common
+.image img/common.png _ 500
+
+* 设计
+- 以数据为中心
+- TDD
+- DDD
+
+: 只在为了使失败的测试用例通过时才编写产品代码
+: 当测试刚好失败时，停止继续编写。编译失败也是失败。
+: 只编写刚好让一个失败测试用例通过的代码
+: 单库单表->redis+DB查询->分库分表->拆分微服务RPC
+
+* 代码示例
+.image img/code.jpg _ 670
+
+* 代码示例
+代码可测试
+
+
+* 代码检查golint
+安装方式
+
+	go get -u golang.org/x/lint/golint
+
+- package注释 必须按照 “Package xxx 开头”
+- package命名 不能有大写字母、下划线等特殊字符
+- struct、interface等注释 必须按照指定格式开头
+- struct、interface等命名
+- 变量注释、命名
+.link https://unbug.github.io/codelf codelf
+- 各种语法规范校验等
+
+* golint常见问题
+- 不能使用下划线命名法，使用驼峰命名法
+- 外部可见程序结构体、变量、函数都需要注释
+- 包命名统一小写不使用驼峰和下划线
+- 注释第一个单词要求是注释程序主体的名称，注释可选不是必须的
+- 外部可见程序实体不建议再加包名前缀
+- if语句包含return时，后续代码不能包含在else里面
+- receiver名称不能为this或self
+- 错误变量命名需以 Err/err 开头
+- a+=1应该改成a++，a-=1应该改成a–
+
+* golint常见问题
+- 通用名词要求大写
+            iD/Id -> ID
+            Http -> HTTP
+            Json -> JSON
+            Url -> URL
+            Ip -> IP
+            Sql -> SQL
+
+
+
+
+
+
+
+
+
+
+
